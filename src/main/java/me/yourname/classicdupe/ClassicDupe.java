@@ -25,7 +25,7 @@ public final class ClassicDupe extends JavaPlugin implements Listener, CommandEx
         if (getCommand("dupe") != null) {
             getCommand("dupe").setExecutor(this);
         }
-        getLogger().info("ClassicDupe v1.3 (Guaranteed Stealth) activated!");
+        getLogger().info("ClassicDupe v1.4 (Guaranteed Pop-Out) activated!");
     }
 
     @EventHandler
@@ -36,23 +36,23 @@ public final class ClassicDupe extends JavaPlugin implements Listener, CommandEx
             
             if (itemFrame.getItem().getType() == Material.AIR) return;
 
-            // 1. Silent Cooldown Check (3 seconds to prevent absolute spam)
+            // 1. Silent Cooldown Check (3 seconds to prevent total server crashes)
             long currentTime = System.currentTimeMillis();
             if (cooldowns.containsKey(playerUUID)) {
                 long timePassed = currentTime - cooldowns.get(playerUUID);
                 if (timePassed < 3000) {
-                    event.setCancelled(true); // Silently block interactions if clicking too fast
+                    event.setCancelled(true); // Silently block spam clicks
                     return;
                 }
             }
             cooldowns.put(playerUUID, currentTime);
 
-            // 2. Guaranteed Success - Silently slide item into their inventory
-            if (player.getInventory().firstEmpty() != -1) {
-                ItemStack itemToDupe = itemFrame.getItem().clone();
-                player.getInventory().addItem(itemToDupe);
-                // No chat messages, no sounds, no drops on the ground
-            }
+            // 2. Guaranteed Success - Silently pop the duplicated item out into the world
+            ItemStack itemToDupe = itemFrame.getItem().clone();
+            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), itemToDupe);
+            
+            // The item frame entity stays completely intact on the wall.
+            // No chat alerts or text messages are generated.
         }
     }
 
