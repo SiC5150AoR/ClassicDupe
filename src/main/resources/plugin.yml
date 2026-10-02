@@ -1,0 +1,14 @@
+name: ClassicDupe
+version: 1.0
+main: me.yourname.classicdupe.ClassicDupe
+api-version: '1.21'
+description: Re-enables custom item-frame desync loops and a dupe command.
+commands:
+  dupe:
+    description: Duplicates the item currently in your main hand.
+    usage: /<command>
+    permission: classicdupe.use
+permissions:
+  classicdupe.use:
+    description: Allows players to use the dupe system.
+    default: op #
